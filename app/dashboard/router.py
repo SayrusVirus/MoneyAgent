@@ -4,6 +4,9 @@ from sqlalchemy.orm import Session
 
 from app.database.database import SessionLocal
 from app.database.models import Project, AgentTask
+from app.database.models import Project, AgentTask, AgentLog
+from app.database.models import Project, AgentTask
+
 
 
 router = APIRouter(
