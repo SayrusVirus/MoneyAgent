@@ -4,18 +4,26 @@ from app.database.models import Project
 
 
 class ProjectService:
-def exists_by_url(self, url):
-    return self.db.query(Project).filter(
-        Project.url == url
-    ).first()
+
     def __init__(self, db: Session):
         self.db = db
+
 
     def get_all(self):
         return self.db.query(Project).all()
 
+
     def get_by_url(self, url: str):
-        return self.db.query(Project).filter(Project.url == url).first()
+        return (
+            self.db.query(Project)
+            .filter(Project.url == url)
+            .first()
+        )
+
+
+    def exists_by_url(self, url: str):
+        return self.get_by_url(url) is not None
+
 
     def create(
         self,
@@ -25,10 +33,12 @@ def exists_by_url(self, url):
         url: str,
         source: str,
     ):
+
         existing = self.get_by_url(url)
 
         if existing:
             return existing
+
 
         project = Project(
             title=title,
@@ -43,4 +53,3 @@ def exists_by_url(self, url):
         self.db.refresh(project)
 
         return project
-        
