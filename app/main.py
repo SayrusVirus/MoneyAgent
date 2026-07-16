@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.api.projects import router as projects_router
+from app.api.scout import router as scout_router
 from app.database.database import Base, engine
 from app.database.models import Project
 
@@ -12,6 +13,7 @@ app = FastAPI(
 )
 
 app.include_router(projects_router)
+app.include_router(scout_router)
 
 
 @app.get("/")
