@@ -1,13 +1,13 @@
 class AnalystAgent:
 
-    def __init__(self):
-        pass
-
     def analyze(self, project):
 
+        score = 80
+
         return {
-            "project": project.title,
-            "score": 80,
+            "project_id": project.id,
+            "title": project.title,
+            "score": score,
             "profitability": "high",
             "difficulty": "medium",
             "recommendation": "take",
