@@ -1,0 +1,20 @@
+```gitignore
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Database
+moneyagent.db
+
+# Environment variables
+.env
+
+# Logs
+logs/
+
+# VS Code
+.vscode/
+```
