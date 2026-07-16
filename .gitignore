@@ -18,3 +18,5 @@ logs/
 # VS Code
 .vscode/
 ```
+.env
+.env.txt
