@@ -12,6 +12,7 @@ from app.api.decision import router as decision_router
 from app.api.memory import router as memory_router
 from app.api.agents import router as agents_router
 from app.api.scheduler import router as scheduler_router
+from app.scheduler.agent_scheduler import start_scheduler
 
 from app.database.database import Base, engine
 from app.database.models import Project
@@ -24,7 +25,7 @@ app = FastAPI(
     title="MoneyAgent",
     version="0.9.0",
 )
-
+start_scheduler()
 
 app.include_router(projects_router)
 app.include_router(scout_router)
