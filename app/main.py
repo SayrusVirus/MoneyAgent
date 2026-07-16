@@ -11,6 +11,7 @@ from app.api.analyst import router as analyst_router
 from app.api.decision import router as decision_router
 from app.api.memory import router as memory_router
 from app.api.agents import router as agents_router
+from app.api.scheduler import router as scheduler_router
 
 from app.database.database import Base, engine
 from app.database.models import Project
@@ -32,6 +33,7 @@ app.include_router(decision_router)
 app.include_router(memory_router)
 app.include_router(agents_router)
 app.include_router(tasks_router)
+app.include_router(scheduler_router)
 
 
 @app.get("/")
