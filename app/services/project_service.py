@@ -4,6 +4,10 @@ from app.database.models import Project
 
 
 class ProjectService:
+def exists_by_url(self, url):
+    return self.db.query(Project).filter(
+        Project.url == url
+    ).first()
     def __init__(self, db: Session):
         self.db = db
 
