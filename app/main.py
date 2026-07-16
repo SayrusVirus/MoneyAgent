@@ -4,6 +4,7 @@ load_dotenv()
 
 from fastapi import FastAPI
 
+from app.api.tasks import router as tasks_router
 from app.api.projects import router as projects_router
 from app.api.scout import router as scout_router
 from app.api.analyst import router as analyst_router
@@ -30,6 +31,7 @@ app.include_router(analyst_router)
 app.include_router(decision_router)
 app.include_router(memory_router)
 app.include_router(agents_router)
+app.include_router(tasks_router)
 
 
 @app.get("/")

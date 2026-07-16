@@ -2,48 +2,81 @@ from app.agents.scout_agent import ScoutAgent
 from app.agents.analyst_agent import AnalystAgent
 from app.agents.decision_agent import DecisionAgent
 
+from app.services.task_service import TaskService
+from app.database.models import Project
+
 
 class AgentManager:
 
     def __init__(self, db):
         self.db = db
+        self.tasks = TaskService(db)
 
 
     def run(self):
 
-        # 1. Scout
-        scout = ScoutAgent(self.db)
-        scout_result = scout.run()
+        task = self.tasks.create(
+            "Full Agent Workflow"
+        )
+
+        try:
+
+            task.status = "RUNNING"
+            self.db.commit()
 
 
-        # 2. Analyst + Decision
-        projects = self.db.query(
-            __import__(
-                "app.database.models",
-                fromlist=["Project"]
-            ).Project
-        ).all()
+            scout = ScoutAgent(self.db)
+
+            scout_result = scout.run()
 
 
-        analyst = AnalystAgent(self.db)
-        decision_agent = DecisionAgent(self.db)
+            projects = self.db.query(
+                Project
+            ).all()
 
 
-        decisions = []
+            analyst = AnalystAgent(self.db)
+            decision_agent = DecisionAgent(self.db)
 
 
-        for project in projects:
+            decisions = []
 
-            analysis = analyst.analyze(project)
 
-            decision = decision_agent.decide(
-                analysis
+            for project in projects:
+
+                analysis = analyst.analyze(
+                    project
+                )
+
+                decision = decision_agent.decide(
+                    analysis
+                )
+
+                decisions.append(
+                    decision
+                )
+
+
+            result = {
+                "scout": scout_result,
+                "decisions": decisions
+            }
+
+
+            self.tasks.complete(
+                task,
+                result
             )
 
-            decisions.append(decision)
+
+            return result
 
 
-        return {
-            "scout": scout_result,
-            "decisions": decisions
-        }
+        except Exception as e:
+
+            self.tasks.fail(
+                task,
+                e
+            )
+
+            raise e
