@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, DateTime
+from datetime import datetime
 
 from app.database.database import Base
 
@@ -19,3 +20,22 @@ class Project(Base):
     source = Column(String(50))
 
     status = Column(String(50), default="new")
+
+
+class AgentLog(Base):
+    __tablename__ = "agent_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    agent_name = Column(String(100), nullable=False)
+
+    project_id = Column(Integer)
+
+    action = Column(String(100))
+
+    result = Column(Text)
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )

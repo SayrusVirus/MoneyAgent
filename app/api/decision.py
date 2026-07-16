@@ -19,8 +19,8 @@ def decide_projects(db: Session = Depends(get_db)):
 
     projects = db.query(Project).all()
 
-    analyst = AnalystAgent()
-    decision_agent = DecisionAgent()
+    analyst = AnalystAgent(db)
+    decision_agent = DecisionAgent(db)
 
     results = []
 
